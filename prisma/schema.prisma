@@ -1,0 +1,197 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model auth {
+  rollno String  @id @unique @db.VarChar(150)
+  pass   String  @db.VarChar(200)
+  token  String? @db.VarChar(200)
+  type   Int
+}
+
+model admin {
+  rollno      String @id @db.VarChar(150)
+  name        String @db.VarChar(200)
+  designation String @db.VarChar(200)
+}
+
+model student {
+  rollno    String   @id @db.VarChar(50)
+  regno     String   @db.VarChar(50)
+  name      String   @db.VarChar(200)
+  year      Int
+  semester  Int
+  dept      String   @db.VarChar(50)
+  quota     String   @db.VarChar(2)
+  dob       DateTime @db.Date
+}
+
+model fresher {
+  appno String   @id @db.VarChar(50)
+  name   String   @db.VarChar(200)
+  dept   String   @db.VarChar(50)
+  quota  String   @db.VarChar(2)
+  dob    DateTime @db.Date
+}
+
+model tuition {
+  id          String    @id @default(uuid())
+  rollno      String    @db.VarChar(150)
+  academic    Int
+  tuition     Int
+  development Int
+  placement   Int
+  others      Int
+  enabled     Int       @default(0)
+  intentId    String    @default("0") @db.VarChar(200)
+  paiddate    DateTime? @db.Date
+  paid        Int       @default(0)
+}
+
+model exam {
+  id          String    @id @default(uuid())
+  rollno      String    @db.VarChar(150)
+  semester    Int
+  exam        Int
+  arrear      Int       @default(0)
+  others      Int
+  intentId    String    @default("0") @db.VarChar(200)
+  paiddate    DateTime? @db.Date
+  paid        Int       @default(0)
+}
+
+model alumni {
+  id          String    @id @default(uuid())
+  rollno      String    @db.VarChar(150)
+  academic    Int
+  alumni      Int
+  others      Int
+  intentId    String    @default("0") @db.VarChar(200)
+  paiddate    DateTime? @db.Date
+  paid        Int       @default(0)
+}
+
+model tuitionTransaction {
+  clnt_txn_ref      Int      @id @default(autoincrement())
+  rollno            String   @db.VarChar(150)
+  txn_status        String
+  txn_msg           String?
+  txn_err_msg       String?
+  tpsl_bank_cd      String?
+  tpsl_txn_id       String?
+  txn_amt           String?
+  clnt_rqst_meta    String?
+  tpsl_txn_time     String?
+  bal_amt           String?
+  card_id           String?
+  alias_name        String?
+  BankTransactionID String?
+  mandate_reg_no    String?
+  token             String?
+  hash              String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  academicYear      Int
+  feeid             String    @db.VarChar(150)
+}
+
+model examTransaction {
+  clnt_txn_ref      Int      @id @default(autoincrement())
+  rollno            String   @db.VarChar(150)
+  txn_status        String
+  txn_msg           String?
+  txn_err_msg       String?
+  tpsl_bank_cd      String?
+  tpsl_txn_id       String?
+  txn_amt           String?
+  clnt_rqst_meta    String?
+  tpsl_txn_time     String?
+  bal_amt           String?
+  card_id           String?
+  alias_name        String?
+  BankTransactionID String?
+  mandate_reg_no    String?
+  token             String?
+  hash              String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  arrearCost        Int
+  semester          Int
+  feeid             String    @db.VarChar(150)
+}
+
+model alumniTransaction {
+  id            Int        @id @default(autoincrement())
+  intentId      String     @db.VarChar(200)
+  transactionId String?    @db.VarChar(200) 
+  rollno        String     @db.VarChar(150) 
+  timeStamp     DateTime   @db.Date
+  amount        Int
+  status        String     @db.VarChar(50)
+  academicYear  Int
+}
+
+
+model oldtuition {
+  id          String    @id @default(uuid())
+  rollno      String    @db.VarChar(150)
+  name        String    @db.VarChar(200)
+  academic    Int
+  tuition     Int
+  development Int
+  placement   Int
+  others      Int
+  total       Int
+  intentId    String    @default("0") @db.VarChar(200)
+  paiddate    DateTime? @db.Date
+  paid        Int       @default(0)
+}
+
+model oldexam {
+  id          String    @id @default(uuid())
+  rollno      String    @db.VarChar(150)
+  name        String    @db.VarChar(200)
+  academic    Int
+  exam        Int
+  revaluation Int
+  photocopy   Int
+  others      Int
+  total       Int
+  intentId    String    @default("0") @db.VarChar(200)
+  paiddate    DateTime? @db.Date
+  paid        Int       @default(0)
+}
+
+
+model oldalumni {
+  id          String    @id @default(uuid())
+  rollno      String    @db.VarChar(150)
+  name        String    @db.VarChar(200)
+  academic    Int
+  alumni      Int
+  others      Int
+  total       Int
+  intentId    String    @default("0") @db.VarChar(200)
+  paiddate    DateTime? @db.Date
+  paid        Int       @default(0)
+}
+
+model unpaidalumni {
+  id          String    @id @default(uuid())
+  rollno      String    @db.VarChar(150)
+  name        String    @db.VarChar(200)
+  academic    Int
+  tuition     Int
+  development Int
+  placement   Int
+  others      Int
+  total       Int
+  intentId    String    @default("0") @db.VarChar(200)
+  paiddate    DateTime? @db.Date
+  paid        Int       @default(0)
+}
